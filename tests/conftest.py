@@ -1,8 +1,10 @@
 import pytest
+
 from src.assistant_core.config import load_settings
 from src.assistant_core.knowledge import Handbook, OfficeDirectory
 from src.assistant_core.responder import StubLLMResponder
 from src.assistant_core.service import AssistantService
+
 
 @pytest.fixture
 def service():
