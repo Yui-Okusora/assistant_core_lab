@@ -17,4 +17,5 @@ def setup_logging(level: str = "INFO"):
     handler.setFormatter(JsonFormatter())
     root = logging.getLogger("assistant_core")
     root.setLevel(level)
+    root.handlers.clear()
     root.addHandler(handler)
