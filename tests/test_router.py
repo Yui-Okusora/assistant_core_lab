@@ -1,4 +1,4 @@
-from router import route, Intent
+from src.assistant_core.router import route, Intent
 
 def test_greeting_intent():
     assert route("hello", set()) == Intent.GREETING
