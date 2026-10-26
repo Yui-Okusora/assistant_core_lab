@@ -1,0 +1,177 @@
+{
+  "info": {
+    "name": "Study Assistant API v1",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base",
+      "value": "http://127.0.0.1:8000"
+    },
+    {
+      "key": "admin_key",
+      "value": "change-me"
+    }
+  ],
+  "item": [
+    {
+      "name": "health",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base}}/health",
+          "host": [
+            "{{base}}"
+          ],
+          "path": [
+            "health"
+          ]
+        }
+      }
+    },
+    {
+      "name": "chat - fee",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base}}/v1/chat",
+          "host": [
+            "{{base}}"
+          ],
+          "path": [
+            "v1",
+            "chat"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\"message\": \"tuition for 18 credits and 2 retake\", \"session_id\": \"demo\"}"
+        }
+      }
+    },
+    {
+      "name": "chat - rule",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base}}/v1/chat",
+          "host": [
+            "{{base}}"
+          ],
+          "path": [
+            "v1",
+            "chat"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\"message\": \"can I register my thesis with 118 credits\"}"
+        }
+      }
+    },
+    {
+      "name": "chat - empty (422)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base}}/v1/chat",
+          "host": [
+            "{{base}}"
+          ],
+          "path": [
+            "v1",
+            "chat"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\"message\": \"\"}"
+        }
+      }
+    },
+    {
+      "name": "feedback - add",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base}}/v1/feedback",
+          "host": [
+            "{{base}}"
+          ],
+          "path": [
+            "v1",
+            "feedback"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\"request_id\": \"abc123\", \"rating\": 1}"
+        }
+      }
+    },
+    {
+      "name": "feedback - list (admin)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "X-API-Key",
+            "value": "{{admin_key}}"
+          }
+        ],
+        "url": {
+          "raw": "{{base}}/v1/feedback",
+          "host": [
+            "{{base}}"
+          ],
+          "path": [
+            "v1",
+            "feedback"
+          ]
+        }
+      }
+    },
+    {
+      "name": "weather",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base}}/v1/weather",
+          "host": [
+            "{{base}}"
+          ],
+          "path": [
+            "v1",
+            "weather"
+          ]
+        }
+      }
+    }
+  ]
+}
