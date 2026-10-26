@@ -5,13 +5,13 @@ from __future__ import annotations
 import logging
 import time
 
-from src.assistant_core.config import Settings
-from src.assistant_core.errors import InvalidRequest, ProviderError
-from src.assistant_core.knowledge import Handbook, OfficeDirectory
-from src.assistant_core.models import Intent, Message, Response, Source
-from src.assistant_core.responder import Responder, TemplateResponder, make_responder
-from src.assistant_core.router import route
-from src.assistant_core.tools import parse_credits, tuition
+from assistant_core.config import Settings
+from assistant_core.errors import InvalidRequest, ProviderError
+from assistant_core.knowledge import Handbook, OfficeDirectory
+from assistant_core.models import Intent, Message, Response, Source
+from assistant_core.responder import Responder, TemplateResponder, make_responder
+from assistant_core.router import route
+from assistant_core.tools import parse_credits, tuition
 
 log = logging.getLogger("assistant_core")
 

@@ -8,7 +8,7 @@ import re
 from dataclasses import dataclass
 from pathlib import Path
 
-from src.assistant_core.errors import DataError
+from assistant_core.errors import DataError
 
 
 @dataclass(frozen=True)

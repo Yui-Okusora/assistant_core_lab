@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from src.assistant_core.models import Intent
+from assistant_core.models import Intent
 
 GREETINGS = frozenset({"hi", "hello", "hey", "xin chao"})
 FEE_WORDS = ("fee", "tuition")

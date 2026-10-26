@@ -8,7 +8,7 @@ from pathlib import Path
 from dotenv import load_dotenv
 from pydantic import BaseModel, Field
 
-from src.assistant_core.errors import ConfigError
+from assistant_core.errors import ConfigError
 
 
 class Settings(BaseModel):
