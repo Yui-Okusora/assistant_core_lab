@@ -1,3 +1,6 @@
+"""Exceptions with clear meanings instead of bare `except:`."""
+
+
 class AssistantError(Exception):
     """Base class for all assistant errors."""
 

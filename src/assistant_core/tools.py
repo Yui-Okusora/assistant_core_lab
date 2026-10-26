@@ -1,10 +1,14 @@
+"""Deterministic tools: exact, testable, never delegated to an LLM."""
+
+from __future__ import annotations
+
 import re
 
 from assistant_core.errors import InvalidRequest
 
 
 def parse_credits(text: str) -> tuple[int, int]:
-    """Extract (credits, retake_credits) from 'fee for 18 credits and 2 retake'."""
+    """Extract (credits, retake_credits) from text like 'fee for 18 credits and 2 retake'."""
     retake = re.search(r"(\d+)\s*retake", text)
     numbers = [int(n) for n in re.findall(r"\d+", text)]
     retake_n = int(retake.group(1)) if retake else 0
@@ -19,4 +23,6 @@ def parse_credits(text: str) -> tuple[int, int]:
 def tuition(credits: int, retake: int, rate: int, retake_multiplier: float, max_credits: int) -> int:
     if not 1 <= credits <= max_credits:
         raise InvalidRequest(f"Credits must be between 1 and {max_credits}.")
+    if retake < 0:
+        raise InvalidRequest("Retake credits cannot be negative.")
     return int(credits * rate + retake * rate * retake_multiplier)
