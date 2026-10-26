@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 name = "assistant-core"
 version = "0.3.0"
 requires-python = ">=3.10"
-dependencies = ["pydantic>=2.7,<3", "python-dotenv>=1.0,<2"]
+dependencies = ["pydantic>=2.7,<3", "python-dotenv>=1.0,<2", "fastapi>=0.115,<1", "uvicorn>=0.30,<1"]
 [tool.setuptools.packages.find]
 where = ["src"]
 [tool.pytest.ini_options]
