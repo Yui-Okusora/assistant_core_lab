@@ -71,12 +71,11 @@ def create_app(
         raise NotImplementedError("T1")
 
     @app.post("/v1/feedback", response_model=FeedbackOut, status_code=201, tags=["feedback"])
-    def add_feedback(fb: FeedbackIn) -> FeedbackOut:
-        # TODO T2 (3 lines):
-        #   1. item = FeedbackOut(**fb.model_dump(), id=len(feedback_store) + 1, created_at=datetime.now(timezone.utc))
-        #   2. add item to feedback_store
-        #   3. return item
-        raise NotImplementedError("T2")
+    def add_feedback(fb: FeedbackIn) -> FeedbackOut: 
+        item = FeedbackOut(**fb.model_dump(), id=len(feedback_store) + 1, 
+        created_at=datetime.now(timezone.utc)) 
+        feedback_store.append(item) 
+        return item 
 
     @app.get("/v1/feedback", response_model=list[FeedbackOut], tags=["feedback"], dependencies=[Depends(require_admin)])
     def list_feedback() -> list[FeedbackOut]:
