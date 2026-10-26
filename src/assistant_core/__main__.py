@@ -6,11 +6,11 @@ import sys
 
 from pydantic import ValidationError
 
-from assistant_core.config import load_settings
-from assistant_core.errors import AssistantError
-from assistant_core.logging_setup import setup_logging
-from assistant_core.models import Message
-from assistant_core.service import build_service
+from src.assistant_core.config import load_settings
+from src.assistant_core.errors import AssistantError
+from src.assistant_core.logging_setup import setup_logging
+from src.assistant_core.models import Message
+from src.assistant_core.service import build_service
 
 
 def main(argv: list[str] | None = None) -> int:

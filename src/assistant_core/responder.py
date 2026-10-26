@@ -4,8 +4,8 @@ from __future__ import annotations
 
 from typing import Protocol
 
-from assistant_core.errors import ProviderError
-from assistant_core.knowledge import Rule
+from src.assistant_core.errors import ProviderError
+from src.assistant_core.knowledge import Rule
 
 
 class Responder(Protocol):

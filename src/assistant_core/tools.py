@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import re
 
-from assistant_core.errors import InvalidRequest
+from src.assistant_core.errors import InvalidRequest
 
 
 def parse_credits(text: str) -> tuple[int, int]:
