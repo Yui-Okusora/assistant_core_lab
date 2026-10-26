@@ -1,15 +1,25 @@
+from pathlib import Path
+
 import pytest
 
-from src.assistant_core.config import load_settings
-from src.assistant_core.knowledge import Handbook, OfficeDirectory
-from src.assistant_core.responder import StubLLMResponder
-from src.assistant_core.service import AssistantService
+from assistant_core.config import Settings
+from assistant_core.knowledge import Handbook, OfficeDirectory
+from assistant_core.responder import StubLLMResponder
+from assistant_core.service import AssistantService
+
+DATA = Path(__file__).resolve().parents[1] / "data"
 
 
 @pytest.fixture
-def service():
-    settings = load_settings()
-    offices = OfficeDirectory.from_csv(settings.data_dir / "offices.csv")
-    handbook = Handbook.from_json(settings.data_dir / "handbook.json")
-    responder = StubLLMResponder()
-    return AssistantService(settings, offices, handbook, responder)
+def settings():
+    return Settings(data_dir=DATA)
+
+
+@pytest.fixture
+def service(settings):
+    return AssistantService(
+        settings,
+        OfficeDirectory.from_csv(DATA / "offices.csv"),
+        Handbook.from_json(DATA / "handbook.json"),
+        StubLLMResponder(),
+    )

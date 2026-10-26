@@ -1,10 +1,13 @@
+"""Structured (JSON) logging. Never log secrets or full user messages."""
+
+from __future__ import annotations
+
 import json
 import logging
-import sys
 
 
 class JsonFormatter(logging.Formatter):
-    def format(self, record):
+    def format(self, record: logging.LogRecord) -> str:
         data = {"level": record.levelname, "logger": record.name, "msg": record.getMessage()}
         for key in ("intent", "latency_ms", "session", "degraded"):
             if hasattr(record, key):
@@ -12,10 +15,9 @@ class JsonFormatter(logging.Formatter):
         return json.dumps(data, ensure_ascii=False)
 
 
-def setup_logging(level: str = "INFO"):
-    handler = logging.StreamHandler(sys.stderr)
+def setup_logging(level: str = "INFO") -> None:
+    handler = logging.StreamHandler()
     handler.setFormatter(JsonFormatter())
-    root = logging.getLogger("assistant_core")
+    root = logging.getLogger()
+    root.handlers[:] = [handler]
     root.setLevel(level)
-    root.handlers.clear()
-    root.addHandler(handler)
