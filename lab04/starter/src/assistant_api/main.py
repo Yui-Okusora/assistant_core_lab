@@ -65,10 +65,17 @@ def create_app(
     )
     def chat(req: ChatRequest, request: Request) -> ChatResponse:
         # BONUS: rate limiting (see tutorial Part F). Leave it for later.
-        # TODO T1 (2 lines):
-        #   1. resp = service.handle(Message(text=req.message, session_id=req.session_id))
-        #   2. return ChatResponse(**resp.model_dump(), request_id=uuid.uuid4().hex[:12])
-        raise NotImplementedError("T1")
+        resp = service.handle(
+            Message(
+                text=req.message,
+                session_id=req.session_id,
+            )
+        )
+
+        return ChatResponse(
+            **resp.model_dump(),
+            request_id=uuid.uuid4().hex[:12],
+        )
 
     @app.post("/v1/feedback", response_model=FeedbackOut, status_code=201, tags=["feedback"])
     def add_feedback(fb: FeedbackIn) -> FeedbackOut:
