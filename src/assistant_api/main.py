@@ -69,6 +69,9 @@ def create_app(
     )
     def chat(req: ChatRequest, request: Request) -> ChatResponse:
         # BONUS: rate limiting (see tutorial Part F). Leave it for later.
+        client = request.client.host if request.client else "unknown"
+        if not limiter.allow(client):
+            raise HTTPException(status.HTTP_429_TOO_MANY_REQUESTS, "Too many requests")
         resp = service.handle(
             Message(
                 text=req.message,
