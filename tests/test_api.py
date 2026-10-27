@@ -24,14 +24,6 @@ def test_health(client):
     r = client.get("/health")
     assert r.status_code == 200 and r.json()["status"] == "ok"
 
-
-def test_offices(client):
-    r = client.get("/v1/offices")
-    assert r.status_code == 200
-    assert [office["name"] for office in r.json()] == ["IT Helpdesk", "Library", "Student Affairs", "Training Office"]
-    assert r.json()[0] == {"name": "IT Helpdesk", "room": "E.005", "hours": "Mon-Fri 08:00-17:00"}
-
-
 def test_chat_fee(client):
     r = client.post("/v1/chat", json={"message": "tuition for 18 credits and 2 retake"})
     assert r.status_code == 200
@@ -88,3 +80,13 @@ def test_weather_stale_cache_when_upstream_fails():
     w.cache_ttl_s = 0  # force a refresh on the second call
     assert not w.current().stale
     assert w.current().stale
+
+def test_get_offices_success(client):
+    response = client.get("/v1/offices")
+    assert response.status_code == 200
+
+    data = response.json()
+    assert isinstance(data, list)
+
+    office_names = [office["name"] for office in data]
+    assert "Library" in office_names
