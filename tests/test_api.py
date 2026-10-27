@@ -24,7 +24,6 @@ def test_health(client):
     r = client.get("/health")
     assert r.status_code == 200 and r.json()["status"] == "ok"
 
-
 def test_chat_fee(client):
     r = client.post("/v1/chat", json={"message": "tuition for 18 credits and 2 retake"})
     assert r.status_code == 200
