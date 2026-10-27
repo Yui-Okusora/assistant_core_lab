@@ -72,11 +72,17 @@ def create_app(
         client = request.client.host if request.client else "unknown"
         if not limiter.allow(client):
             raise HTTPException(status.HTTP_429_TOO_MANY_REQUESTS, "Too many requests")
-        # TODO T1 (2 lines):
-        #   1. resp = service.handle(Message(text=req.message, session_id=req.session_id))
-        #   2. return ChatResponse(**resp.model_dump(), request_id=uuid.uuid4().hex[:12])
+        resp = service.handle(
+            Message(
+                text=req.message,
+                session_id=req.session_id,
+            )
+        )
 
-        raise NotImplementedError("T1")
+        return ChatResponse(
+            **resp.model_dump(),
+            request_id=uuid.uuid4().hex[:12],
+        )
 
     @app.post("/v1/feedback", response_model=FeedbackOut, status_code=201, tags=["feedback"])
     def add_feedback(fb: FeedbackIn) -> FeedbackOut:
