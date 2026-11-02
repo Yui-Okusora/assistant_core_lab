@@ -27,6 +27,9 @@ class Settings(BaseModel):
     campus_lat: float = 10.7626  # University of Science, HCMC (Nguyen Van Cu campus)
     campus_lon: float = 106.6822
     rate_limit_per_min: int = 30
+    # Lab 5 — persistence
+    database_url: str = "sqlite:///assistant.db"
+    session_salt: str = Field(default="dev-salt", repr=False)
 
 
 def load_settings(env_file: str | None = ".env") -> Settings:
@@ -48,6 +51,8 @@ def load_settings(env_file: str | None = ".env") -> Settings:
         campus_lat=float(os.getenv("CAMPUS_LAT", "10.7626")),
         campus_lon=float(os.getenv("CAMPUS_LON", "106.6822")),
         rate_limit_per_min=int(os.getenv("RATE_LIMIT_PER_MIN", "30")),
+        database_url=os.getenv("DATABASE_URL", "sqlite:///assistant.db"),
+        session_salt=os.getenv("SESSION_SALT", "dev-salt"),
     )
     if s.llm_provider != "stub" and not s.llm_api_key:
         raise ConfigError(f"LLM_API_KEY is required when LLM_PROVIDER={s.llm_provider!r}")
