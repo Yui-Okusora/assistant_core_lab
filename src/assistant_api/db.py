@@ -107,6 +107,11 @@ class Repository:
             #   fb = Feedback(request_id=request_id, rating=rating, comment=comment)
             #   db.add(fb); db.commit(); db.refresh(fb)   # refresh loads the new id from the database
             #   return fb
+            fb = Feedback(request_id=request_id, rating=rating, comment=comment)
+            db.add(fb)
+            db.commit()
+            db.refresh(fb) # load the id the database just gave it
+            return fb
             raise NotImplementedError("R1")
 
     def list_feedback(self, limit: int = 100) -> list[Feedback]:
