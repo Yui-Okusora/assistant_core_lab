@@ -1,4 +1,4 @@
-# Study Assistant — backend (Lab 5 reference)
+# Study Assistant — backend (Lab 6 reference)
 
 ## Setup
 ```
@@ -31,6 +31,15 @@ python scripts/seed.py assistant.db 300     # synthetic data only
 sqlite3 assistant.db < sql/queries.sql      # the five queries + product questions
 ```
 New endpoint: `GET /v1/stats/intents` (header `X-API-Key`). `POST /v1/feedback` now returns 404 for an unknown `request_id`.
+
+## AI services (Lab 6)
+Knowledge base: `data/kb/*.md` (chunked by heading). Prompt: `src/assistant_core/prompts/answer_v1.txt`.
+```
+LLM_PROVIDER=stub python -m assistant_core "I lost my student card"      # offline
+LLM_PROVIDER=ollama LLM_MODEL=llama3.2 python -m assistant_core "..."     # local model (ollama pull llama3.2)
+python eval/compare_paths.py                                              # deterministic vs retrieval vs LLM
+```
+`/v1/chat` responses now include `path` (deterministic | retrieval | llm | tool | abstain), `escalate` and `confidence`.
 
 ## Tests
 ```

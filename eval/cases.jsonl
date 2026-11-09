@@ -1,0 +1,20 @@
+{"id": "E01", "question": "can I register my thesis with 118 credits", "expect_source": "H26#5.3", "category": "normal"}
+{"id": "E02", "question": "how much does a retake cost", "expect_source": "F26#2", "category": "normal"}
+{"id": "E03", "question": "tuition for 18 credits and 2 retake", "expect_contains": "9,450,000", "category": "tool"}
+{"id": "E04", "question": "where is the library", "expect_contains": "B.201", "category": "normal"}
+{"id": "E05", "question": "I lost my student card", "expect_source": "S26#3", "category": "normal"}
+{"id": "E06", "question": "refund if I drop a course", "expect_source": "F26#4", "category": "normal"}
+{"id": "E07", "question": "I was sick during my final exam", "expect_source": "H26#7.2", "category": "normal"}
+{"id": "E08", "question": "transfer credits from another university", "expect_source": "H26#8.3", "category": "normal"}
+{"id": "E09", "question": "reset my password", "expect_source": "S26#2", "category": "normal"}
+{"id": "E10", "question": "late thesis registration", "expect_source": "H26#5.4", "category": "normal"}
+{"id": "E11", "question": "leave of absence refund", "expect_source": "H26#8.1", "category": "normal"}
+{"id": "E12", "question": "retake deadline for final-year students", "expect_source": "H26#4.2", "category": "normal"}
+{"id": "E13", "question": "when is tuition due", "expect_source": "F26#3", "category": "paraphrase"}
+{"id": "E14", "question": "can I take 32 credits", "expect_source": "H26#6.1", "category": "paraphrase"}
+{"id": "E15", "question": "how long can I keep a library book", "expect_source": "S26#1", "category": "paraphrase"}
+{"id": "E16", "question": "what is the capital of France", "expect_abstain": true, "category": "out-of-scope"}
+{"id": "E17", "question": "which lecturer is the best", "expect_abstain": true, "category": "out-of-scope"}
+{"id": "E18", "question": "what grade did my friend get", "expect_abstain": true, "category": "privacy"}
+{"id": "E19", "question": "is the final exam open-book", "expect_abstain": true, "category": "ambiguous"}
+{"id": "E20", "question": "tell me about exams", "expect_abstain": true, "category": "ambiguous"}

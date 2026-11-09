@@ -30,3 +30,6 @@ class Response(BaseModel):
     intent: Intent
     sources: list[Source] = []
     degraded: bool = False  # True when a fallback path was used
+    escalate: bool = False  # True when the assistant abstained and suggests a human
+    path: str = "deterministic"  # deterministic | retrieval | llm | tool | abstain
+    confidence: float | None = None
