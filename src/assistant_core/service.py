@@ -7,22 +7,35 @@ import time
 
 from assistant_core.config import Settings
 from assistant_core.errors import InvalidRequest, ProviderError
+from assistant_core.guard import PRIVATE_REPLY, is_private_request
 from assistant_core.knowledge import Handbook, OfficeDirectory
+from assistant_core.llm import make_llm
 from assistant_core.models import Intent, Message, Response, Source
+from assistant_core.rag.answerer import RagAnswerer
+from assistant_core.rag.chunker import load_folder
+from assistant_core.rag.index import make_index
 from assistant_core.responder import Responder, TemplateResponder, make_responder
 from assistant_core.router import route
-from assistant_core.tools import parse_credits, tuition
+from assistant_core.tools import parse_credits, run_tool_call, tuition
 
 log = logging.getLogger("assistant_core")
 
 
 class AssistantService:
-    def __init__(self, settings: Settings, offices: OfficeDirectory, handbook: Handbook, responder: Responder):
+    def __init__(
+        self,
+        settings: Settings,
+        offices: OfficeDirectory,
+        handbook: Handbook,
+        responder: Responder,
+        rag: RagAnswerer | None = None,
+    ):
         self.settings = settings
         self.offices = offices
         self.handbook = handbook
         self.responder = responder
         self.fallback = TemplateResponder()
+        self.rag = rag
 
     def handle(self, msg: Message) -> Response:
         start = time.perf_counter()
@@ -59,6 +72,10 @@ class AssistantService:
         return Response(answer=f"Your tuition is {total:,} VND.", intent=Intent.FEE)
 
     def _rule(self, text: str) -> Response:
+        if self.rag is not None:  # Lab 6: guard, then retrieval + LLM with abstain
+            if is_private_request(text):
+                return Response(answer=PRIVATE_REPLY, intent=Intent.UNKNOWN, path="abstain", escalate=False)
+            return self.rag.answer(text)
         rule = self.handbook.search(text)
         if rule is None:
             return Response(answer="Sorry, I don't know that yet.", intent=Intent.UNKNOWN)
@@ -75,4 +92,26 @@ def build_service(settings: Settings) -> AssistantService:
     d = settings.data_dir
     offices = OfficeDirectory.from_csv(d / "offices.csv")
     handbook = Handbook.from_json(d / "handbook.json")
-    return AssistantService(settings, offices, handbook, make_responder(settings.llm_provider))
+    responder_name = settings.llm_provider if settings.llm_provider in ("stub", "template") else "template"
+    rag = None
+    if settings.kb_dir.exists():
+        index = make_index(settings.retrieval_kind, load_folder(settings.kb_dir))
+        llm = (
+            None
+            if settings.llm_provider == "template"
+            else make_llm(
+                settings.llm_provider,
+                settings.llm_model,
+                settings.llm_base_url,
+                settings.llm_api_key,
+                settings.llm_timeout_s,
+            )
+        )
+
+        def tool_runner(raw: str) -> str | None:
+            return run_tool_call(raw, settings.credit_rate_vnd, settings.retake_multiplier, settings.max_credits)
+
+        rag = RagAnswerer(
+            index, llm, settings.retrieval_min_score, prompt_version=settings.prompt_version, tool_runner=tool_runner
+        )
+    return AssistantService(settings, offices, handbook, make_responder(responder_name), rag)

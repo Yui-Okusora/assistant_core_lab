@@ -19,6 +19,9 @@ class ChatResponse(BaseModel):
     intent: Intent
     sources: list[Source] = []
     degraded: bool = False
+    escalate: bool = False
+    path: str = "deterministic"
+    confidence: float | None = None
     request_id: str
 
 

@@ -1,6 +1,4 @@
-"""Persistence with SQLModel (SQLAlchemy + Pydantic) — Lab 5 STARTER.
-
-The models and `record_interaction` are given as worked examples. Complete TODO R1 and R2.
+"""Persistence with SQLModel (SQLAlchemy + Pydantic) — Lab 5.
 
 Privacy by design: we store *metadata* about interactions (intent, latency, topic, outcome),
 a salted hash of the session id, and feedback. We do NOT store the raw user message.
@@ -102,18 +100,15 @@ class Repository:
         with Session(self.engine) as db:
             exists = db.exec(select(Interaction).where(Interaction.request_id == request_id)).first()
             if exists is None:
-                return None          # the API turns this into 404
-            # TODO R1 (4 lines) — follow record_interaction above:
-            #   fb = Feedback(request_id=request_id, rating=rating, comment=comment)
-            #   db.add(fb); db.commit(); db.refresh(fb)   # refresh loads the new id from the database
-            #   return fb
-            raise NotImplementedError("R1")
+                return None
+            fb = Feedback(request_id=request_id, rating=rating, comment=comment)
+            db.add(fb)
+            db.commit()
+            db.refresh(fb)
+            return fb
 
     def list_feedback(self, limit: int = 100) -> list[Feedback]:
         with Session(self.engine) as db:
-            # TODO R2 (1 line): newest first, at most `limit` rows. SQL would be:
-            #   SELECT * FROM feedback ORDER BY created_at DESC LIMIT ?
-            # In SQLModel: select(Feedback).order_by(Feedback.created_at.desc()).limit(limit)
             return list(db.exec(select(Feedback).order_by(Feedback.created_at.desc()).limit(limit)))
 
     def intent_stats(self) -> list[dict]:
