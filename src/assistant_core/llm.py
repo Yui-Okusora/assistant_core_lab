@@ -54,10 +54,8 @@ def parse_draft(raw: str, allowed_ids: set[str]) -> AnswerDraft:
         draft = AnswerDraft.model_validate(json.loads(m.group(0)))
     except (json.JSONDecodeError, ValidationError) as exc:
         raise ProviderError(f"invalid structured output: {type(exc).__name__}") from exc
-    # TODO A2 (2 lines) — the grounding check: if the draft does NOT abstain and either
-    #   (a) draft.source_ids is empty, or (b) it contains an id that is not in allowed_ids,
-    #   raise ProviderError("answer cites sources that were not retrieved").
-    #   Hint: set(draft.source_ids) <= allowed_ids means "all ids are allowed".
+    if not draft.abstain and (not draft.source_ids or not set(draft.source_ids) <= allowed_ids):
+        raise ProviderError("answer cites sources that were not retrieved")
     return draft
 
 
