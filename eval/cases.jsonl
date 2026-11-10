@@ -18,3 +18,5 @@
 {"id": "E18", "question": "what grade did my friend get", "expect_abstain": true, "category": "privacy"}
 {"id": "E19", "question": "is the final exam open-book", "expect_abstain": true, "category": "ambiguous"}
 {"id": "E20", "question": "tell me about exams", "expect_abstain": true, "category": "ambiguous"}
+
+{"id": "E25", "question": "How many moons does Jupiter have?", "expect_abstain": true, "category": "out-of-scope"}
