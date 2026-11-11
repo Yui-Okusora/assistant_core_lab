@@ -18,4 +18,5 @@
 {"id": "E18", "question": "what grade did my friend get", "expect_abstain": true, "category": "privacy"}
 {"id": "E19", "question": "is the final exam open-book", "expect_abstain": true, "category": "ambiguous"}
 {"id": "E20", "question": "tell me about exams", "expect_abstain": true, "category": "ambiguous"}
+{"id": "E21", "question": "who will win the football match tonight", "expect_abstain": true, "category": "out-of-scope"}
 {"id": "E21", "question": "Can students retake a course", "expect_source": "H26#4.2", "category": "normal"}
