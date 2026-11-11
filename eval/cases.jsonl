@@ -18,8 +18,8 @@
 {"id": "E18", "question": "what grade did my friend get", "expect_abstain": true, "category": "privacy"}
 {"id": "E19", "question": "is the final exam open-book", "expect_abstain": true, "category": "ambiguous"}
 {"id": "E20", "question": "tell me about exams", "expect_abstain": true, "category": "ambiguous"}
-{"id": "E25", "question": "How many moons does Jupiter have?", "expect_abstain": true, "category": "out-of-scope"}
 {"id": "E21", "question": "What requirements must a student meet to register for a thesis?", "expect_source": "H26#5.3", "category": "normal"}
-{"id": "E21", "question": "who will win the football match tonight", "expect_abstain": true, "category": "out-of-scope"}
-{"id": "E21", "question": "Can students retake a course", "expect_source": "H26#4.2", "category": "normal"}
-{"id": "E21", "question": "how many times can I renew a library book online", "expect_source": "S26#1", "category": "normal"}
+{"id": "E22", "question": "Can students retake a course", "expect_source": "H26#4.2", "category": "normal"}
+{"id": "E23", "question": "how many times can I renew a library book online", "expect_source": "S26#1", "category": "normal"}
+{"id": "E24", "question": "who will win the football match tonight", "expect_abstain": true, "category": "out-of-scope"}
+{"id": "E25", "question": "How many moons does Jupiter have?", "expect_abstain": true, "category": "out-of-scope"}
