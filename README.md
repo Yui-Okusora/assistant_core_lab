@@ -1,4 +1,4 @@
-# Study Assistant — backend (Lab 6 reference)
+# Study Assistant (Lab 7 reference)
 
 ## Setup
 ```
@@ -40,6 +40,13 @@ LLM_PROVIDER=ollama LLM_MODEL=llama3.2 python -m assistant_core "..."     # loca
 python eval/compare_paths.py                                              # deterministic vs retrieval vs LLM
 ```
 `/v1/chat` responses now include `path` (deterministic | retrieval | llm | tool | abstain), `escalate` and `confidence`.
+
+## User interface (Lab 7)
+Start the API first, then in a second terminal:
+```
+streamlit run ui/app.py            # opens http://localhost:8501
+```
+The UI talks to the backend only through HTTP (`ui/api_client.py`). Set `ASSISTANT_API_URL` if the API is not on port 8000.
 
 ## Tests
 ```

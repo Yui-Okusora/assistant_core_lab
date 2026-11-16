@@ -39,9 +39,6 @@ class RagAnswerer:
 
     def answer(self, question: str) -> Response:
         hits = self.index.search(question, self.k)
-        # TODO A1 (2 lines): if there are no hits, or the best score hits[0].score is below self.min_score,
-        #   return Response(answer=ESCALATE_MSG, intent=Intent.UNKNOWN, path="abstain", escalate=True, confidence=0.0)
-        #   Why? Without a good source, the LLM would guess. Abstaining is cheaper and safer.
         if not hits or hits[0].score < self.min_score:
             return Response(answer=ESCALATE_MSG, intent=Intent.UNKNOWN, path="abstain", escalate=True, confidence=0.0)
         sources = {h.chunk.id: Source(id=h.chunk.id, title=h.chunk.title) for h in hits}
