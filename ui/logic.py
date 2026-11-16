@@ -23,6 +23,9 @@ def format_sources(sources: list[dict]) -> str:
     """'Sources: H26#5.3 — 5.3 Thesis registration' or '' if none."""
     # TODO L1 (3 lines): return "" if there are no sources, otherwise
     #   "Sources: " + "; ".join(f"{s['id']} — {s['title']}" for s in sources)
+    if not sources:
+        return ""
+    return "Sources: " + "; ".join(f"{s['id']} - {s['title']}" for s in sources)
     raise NotImplementedError("L1")
 
 
