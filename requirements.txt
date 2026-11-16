@@ -6,3 +6,4 @@ uvicorn==0.30.6
 pytest==8.3.3
 ruff==0.6.9
 sqlmodel==0.0.22
+streamlit==1.39.0

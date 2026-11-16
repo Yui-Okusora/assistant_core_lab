@@ -86,10 +86,6 @@ def create_app(
         )
         return ChatResponse(**resp.model_dump(), request_id=request_id)
 
-    @app.get("/v1/offices", tags=["offices"])
-    def list_offices() -> list[dict[str, str]]:
-        return [o.__dict__ for o in service.offices.all()]
-
     @app.post(
         "/v1/feedback",
         response_model=FeedbackOut,
