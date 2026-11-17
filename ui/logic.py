@@ -25,7 +25,7 @@ def format_sources(sources: list[dict]) -> str:
     #   "Sources: " + "; ".join(f"{s['id']} — {s['title']}" for s in sources)
     if not sources:
         return ""
-    return "Sources: " + "; ".join(f"{s['id']} - {s['title']}" for s in sources)
+    return "Sources: " + "; ".join(f"{s['id']} — {s['title']}" for s in sources)
     raise NotImplementedError("L1")
 
 
