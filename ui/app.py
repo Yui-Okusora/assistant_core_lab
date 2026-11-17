@@ -14,7 +14,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))   # so "import ui..
 from ui.api_client import AssistantClient
 from ui.logic import EXAMPLES, WELCOME, format_sources, status_note, validate_input
 
-st.set_page_config(page_title="FIT Study Assistant", page_icon="🎓")
+st.set_page_config(page_title="FIT Study AI Assistant", page_icon="🎓")
 client = AssistantClient(os.getenv("ASSISTANT_API_URL", "http://127.0.0.1:8000"))
 
 # ---- session state: remembered between reruns of this script ----------------
@@ -25,7 +25,7 @@ if "messages" not in st.session_state:
 if "rated" not in st.session_state:
     st.session_state.rated = set()
 
-st.title("🎓 FIT Study Assistant")
+st.title("🎓 FIT Study AI Assistant")
 if not client.healthy():
     st.error("The assistant backend is not reachable. Start it with: uvicorn assistant_api.main:create_app --factory")
 
