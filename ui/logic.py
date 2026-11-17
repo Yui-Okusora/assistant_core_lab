@@ -23,13 +23,15 @@ def format_sources(sources: list[dict]) -> str:
     """'Sources: H26#5.3 — 5.3 Thesis registration' or '' if none."""
     # TODO L1 (3 lines): return "" if there are no sources, otherwise
     #   "Sources: " + "; ".join(f"{s['id']} — {s['title']}" for s in sources)
+    if not sources:
+        return ""
+    return "Sources: " + "; ".join(f"{s['id']} - {s['title']}" for s in sources)
     raise NotImplementedError("L1")
 
 
 def status_note(result: ChatResult) -> str | None:
-    """A short note shown under the answer, explaining special situations."""
-    # TODO L2 (5 lines):
-    #   if result.escalate -> "I could not find this in the official documents. A staff member can help: Training Office, room I.101."
-    #   elif result.degraded -> "Shown directly from the source document (the AI helper was unavailable)."
-    #   else -> None
-    raise NotImplementedError("L2")
+    if result.escalate:
+        return "I could not find this in the official documents. A staff member can help: Training Office, room I.101."
+    if result.degraded:
+        return "Shown directly from the source document (the AI helper was unavailable)."
+    return None
