@@ -34,6 +34,26 @@ with st.sidebar:
     for ex in EXAMPLES:
         if st.button(ex, use_container_width=True):
             st.session_state.pending = ex
+            
+    st.divider()
+    
+    # Nút Xóa lịch sử trò chuyện bổ sung
+    if st.button("🗑️ Xóa lịch sử trò chuyện", use_container_width=True):
+        st.session_state.messages = [{"role": "assistant", "content": WELCOME}]
+        st.session_state.session_id = uuid.uuid4().hex[:12]
+        st.session_state.rated = set()
+        st.rerun()
+        
+    # Nút Tải xuống lịch sử chat bổ sung
+    chat_export = "\n".join([f"{m['role'].upper()}: {m['content']}" for m in st.session_state.messages])
+    st.download_button(
+        label="📥 Tải lịch sử chat",
+        data=chat_export,
+        file_name="chat_history.txt",
+        mime="text/plain",
+        use_container_width=True
+    )
+    
     st.caption("This is an AI assistant. Check important decisions with the Training Office.")
 
 # ---- history -------------------------------------------------------------------
@@ -58,7 +78,7 @@ for i, m in enumerate(st.session_state.messages):
 
 
 # ---- new question ----------------------------------------------------------------
-question = st.chat_input("Ask about fees, offices or the handbook…") or st.session_state.pop("pending", None)
+question = st.chat_input("Ask one question at a time (e.g., 'Can I register thesis with 118 credits?')") or st.session_state.pop("pending", None)
 if question:
     problem = validate_input(question)
     if problem:
