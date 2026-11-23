@@ -7,7 +7,7 @@ import time
 
 from assistant_core.config import Settings
 from assistant_core.errors import InvalidRequest, ProviderError
-from assistant_core.guard import PRIVATE_REPLY, is_private_request
+from assistant_core.guard import INJECTION_REPLY, PRIVATE_REPLY, is_private_request, looks_like_injection
 from assistant_core.knowledge import Handbook, OfficeDirectory
 from assistant_core.llm import make_llm
 from assistant_core.models import Intent, Message, Response, Source
@@ -39,8 +39,11 @@ class AssistantService:
 
     def handle(self, msg: Message) -> Response:
         start = time.perf_counter()
-        intent = route(msg.text, self.offices.names)
-        resp = self._dispatch(intent, msg.text)
+        if looks_like_injection(msg.text):  # Lab 8: refuse attempts to change the rules
+            resp = Response(answer=INJECTION_REPLY, intent=Intent.UNKNOWN, path="abstain")
+        else:
+            intent = route(msg.text, self.offices.names)
+            resp = self._dispatch(intent, msg.text)
         log.info(
             "handled",
             extra={
