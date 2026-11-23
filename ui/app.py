@@ -15,7 +15,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))  # so "import ui...
 from ui.api_client import AssistantClient
 from ui.logic import EXAMPLES, WELCOME, format_sources, status_note, validate_input
 
-st.set_page_config(page_title="FIT Study Assistant", page_icon="🎓")
+st.set_page_config(page_title="FIT Study AI Assistant", page_icon="🎓")
 client = AssistantClient(os.getenv("ASSISTANT_API_URL", "http://127.0.0.1:8000"))
 
 # ---- session state: remembered between reruns of this script ----------------
@@ -26,7 +26,7 @@ if "messages" not in st.session_state:
 if "rated" not in st.session_state:
     st.session_state.rated = set()
 
-st.title("🎓 FIT Study Assistant")
+st.title("🎓 FIT Study AI Assistant")
 if not client.healthy():
     st.error("The assistant backend is not reachable. Start it with: uvicorn assistant_api.main:create_app --factory")
 
@@ -35,6 +35,26 @@ with st.sidebar:
     for ex in EXAMPLES:
         if st.button(ex, use_container_width=True):
             st.session_state.pending = ex
+            
+    st.divider()
+    
+    # Nút Xóa lịch sử trò chuyện bổ sung
+    if st.button("🗑️ Xóa lịch sử trò chuyện", use_container_width=True):
+        st.session_state.messages = [{"role": "assistant", "content": WELCOME}]
+        st.session_state.session_id = uuid.uuid4().hex[:12]
+        st.session_state.rated = set()
+        st.rerun()
+        
+    # Nút Tải xuống lịch sử chat bổ sung
+    chat_export = "\n".join([f"{m['role'].upper()}: {m['content']}" for m in st.session_state.messages])
+    st.download_button(
+        label="📥 Tải lịch sử chat",
+        data=chat_export,
+        file_name="chat_history.txt",
+        mime="text/plain",
+        use_container_width=True
+    )
+    
     st.caption("This is an AI assistant. Check important decisions with the Training Office.")
 
 # ---- history -------------------------------------------------------------------
@@ -58,7 +78,7 @@ for i, m in enumerate(st.session_state.messages):
                 st.toast("Thanks — we will look at this answer.")
 
 # ---- new question ----------------------------------------------------------------
-question = st.chat_input("Ask about fees, offices or the handbook…") or st.session_state.pop("pending", None)
+question = st.chat_input("Ask one question at a time (e.g., 'Can I register thesis with 118 credits?')") or st.session_state.pop("pending", None)
 if question:
     problem = validate_input(question)
     if problem:
