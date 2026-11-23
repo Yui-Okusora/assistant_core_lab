@@ -3,8 +3,15 @@ import httpx
 from ui.api_client import AssistantClient, ChatResult
 from ui.logic import format_sources, status_note, validate_input
 
-OK = {"answer": "Room B.201", "intent": "office", "sources": [{"id": "S26#1", "title": "1 Library borrowing"}],
-      "degraded": False, "escalate": False, "path": "deterministic", "request_id": "abc123"}
+OK = {
+    "answer": "Room B.201",
+    "intent": "office",
+    "sources": [{"id": "S26#1", "title": "1 Library borrowing"}],
+    "degraded": False,
+    "escalate": False,
+    "path": "deterministic",
+    "request_id": "abc123",
+}
 
 
 def client_with(handler) -> AssistantClient:
@@ -19,6 +26,7 @@ def test_ask_ok():
 def test_ask_backend_down():
     def boom(req):
         raise httpx.ConnectError("refused", request=req)
+
     r = client_with(boom).ask("hi", "s1")
     assert not r.ok and "backend" in r.error
 

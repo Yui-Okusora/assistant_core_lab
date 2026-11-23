@@ -1,4 +1,5 @@
 """A tiny client for the assistant API. The UI talks to the backend ONLY through this class."""
+
 from __future__ import annotations
 
 from dataclasses import dataclass, field
@@ -16,12 +17,16 @@ class ChatResult:
     escalate: bool = False
     degraded: bool = False
     request_id: str = ""
-    error: str = ""                       # human-readable message when ok is False
+    error: str = ""  # human-readable message when ok is False
 
 
 class AssistantClient:
-    def __init__(self, base_url: str = "http://127.0.0.1:8000", timeout_s: float = 20.0,
-                 transport: httpx.BaseTransport | None = None):
+    def __init__(
+        self,
+        base_url: str = "http://127.0.0.1:8000",
+        timeout_s: float = 20.0,
+        transport: httpx.BaseTransport | None = None,
+    ):
         self._http = httpx.Client(base_url=base_url, timeout=timeout_s, transport=transport)
 
     def ask(self, message: str, session_id: str) -> ChatResult:
@@ -38,9 +43,16 @@ class AssistantClient:
         if r.status_code != 200:
             return ChatResult(ok=False, error=f"Something went wrong on our side (error {r.status_code}).")
         d = r.json()
-        return ChatResult(ok=True, answer=d["answer"], intent=d["intent"], sources=d.get("sources", []),
-                          path=d.get("path", ""), escalate=d.get("escalate", False),
-                          degraded=d.get("degraded", False), request_id=d["request_id"])
+        return ChatResult(
+            ok=True,
+            answer=d["answer"],
+            intent=d["intent"],
+            sources=d.get("sources", []),
+            path=d.get("path", ""),
+            escalate=d.get("escalate", False),
+            degraded=d.get("degraded", False),
+            request_id=d["request_id"],
+        )
 
     def send_feedback(self, request_id: str, rating: int, comment: str | None = None) -> bool:
         try:

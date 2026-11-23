@@ -1,4 +1,4 @@
-# Study Assistant (Lab 7 reference)
+# Study Assistant (Lab 8 reference)
 
 ## Setup
 ```
@@ -47,6 +47,12 @@ Start the API first, then in a second terminal:
 streamlit run ui/app.py            # opens http://localhost:8501
 ```
 The UI talks to the backend only through HTTP (`ui/api_client.py`). Set `ASSISTANT_API_URL` if the API is not on port 8000.
+
+## Security & red teaming (Lab 8)
+```
+python redteam/run_redteam.py            # writes redteam/report.md
+pytest -q tests/test_security.py         # regression suite for security failures
+```
 
 ## Tests
 ```
