@@ -27,6 +27,8 @@ INJECTION_PATTERNS = [
     #   one for "reveal / show / print / repeat ... your (system) prompt / instructions / rules"
     #   one for "you are now ..."
     # Test your regex in Python first:  re.search(r"...", "please reveal your system prompt")
+    r"\b(reveal|show|print|repeat) (me )?(your|the) (system )?(prompt|instructions|rules)",
+    r"\byou are now\b",
     r"\b(developer|debug|admin|god) mode\b",
     r"\bpretend (to be|you are)\b",
 ]
