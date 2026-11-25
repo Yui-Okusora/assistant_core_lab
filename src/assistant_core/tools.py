@@ -7,11 +7,7 @@ import re
 from assistant_core.errors import InvalidRequest
 
 
-WORD_NUMBERS = r"\b(one|two|three|four|five|six|seven|eight|nine|ten)\b"
 def parse_credits(text: str) -> tuple[int, int]:
-    # Direction 2 mitigation for BUG-7: reject word-form numbers for credits/retakes
-    if re.search(rf"{WORD_NUMBERS}\s+(retake|retakes|credit|credits)\b", text.lower()):
-        return "Please write the number of retake credits as digits."
     """Extract (credits, retake_credits) from text like 'fee for 18 credits and 2 retake'."""
     retake = re.search(r"(\d+)\s*retake", text)
     numbers = [int(n) for n in re.findall(r"\d+", text)]
