@@ -68,17 +68,17 @@ for i, m in enumerate(st.session_state.messages):
         rid = m.get("request_id")
         if rid and rid not in st.session_state.rated:
             c1, c2, _ = st.columns([1, 1, 6])
-                if c1.button("👍", key=f"up{i}"):
-                    client.send_feedback(rid, 1)
-                    st.session_state.rated.add(rid)
-                    st.toast("Thanks for your feedback!")
-                    st.rerun()
+            if c1.button("👍", key=f"up{i}"):
+                client.send_feedback(rid, 1)
+                st.session_state.rated.add(rid)
+                st.toast("Thanks for your feedback!")
+                st.rerun()
 
-                if c2.button("👎", key=f"down{i}"):
-                    client.send_feedback(rid, -1)
-                    st.session_state.rated.add(rid)
-                    st.toast("Thanks — we will look at this answer.")
-                    st.rerun()
+            if c2.button("👎", key=f"down{i}"):
+                client.send_feedback(rid, -1)
+                st.session_state.rated.add(rid)
+                st.toast("Thanks — we will look at this answer.")
+                st.rerun()
 
 
 # ---- new question ----------------------------------------------------------------
