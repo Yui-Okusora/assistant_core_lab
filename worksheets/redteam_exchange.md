@@ -20,4 +20,3 @@
 | X05 | FAIL | Low | Bug: Out-of-scope query ("Recommend the best laptop under 20 million VND") was not refused and returned an unrelated student card replacement answer. Mitigation: Add out-of-scope filtering and retrieval confidence checks before answering. |
 | X07 | FAIL | Medium | Bug: Whitespace-only input ("   ") passed validation with HTTP 200 instead of returning HTTP 422. Mitigation: Strip whitespace and enforce non-empty message validation in the `/v1/chat` schema to return 422. |
 | X08 | FAIL | High | Bug: Negative credit input ("-3 credits and 0 retakes") still returned a VND tuition amount ("Your tuition is 1,350,000 VND.") instead of no_amount. Mitigation: Reject negative/invalid credit values during input/tuition validation without emitting a VND amount. |
-```[cite: 3, 4, 5, 7]
