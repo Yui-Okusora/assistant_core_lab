@@ -1,10 +1,11 @@
+# Lab 8 — Failure catalogue
+
+One row per failure found in Week 7 testing, Lab 8 bug hunting or the red-team exchange.
+
 | # | Failure | Category | Found by | Severity | Mitigation | Regression test |
 |---|---|---|---|---|---|---|
-| 1 | Fee for 18 credits and "two retakes" is calculated as 8,100,000 instead of 9,450,000 VND. | wrong answer | Week 7 testing (BUG-1) | Major | Parse number words such as "two" before calculating the retake fee. **Not yet implemented in supplied snapshot.** | `test_bug1_retake_number_as_word` (FAIL) |
-| 2 | Feedback buttons remain visible immediately after a rating is submitted. | UI | Week 7 testing (BUG-2) | Minor | Add `st.rerun()` to both feedback button handlers. **Not yet implemented in supplied snapshot.** | `test_bug2_feedback_buttons_trigger_rerun` (FAIL) |
-| 3 | Sidebar buttons have Vietnamese labels while the rest of the UI is in English. | UI | Week 7 testing (BUG-3) | Minor | Replace Vietnamese sidebar labels with English text (and remove the strings from comments checked by the test). **Not yet implemented in supplied snapshot.** | `test_bug3_sidebar_labels_are_english` (FAIL) |
-| 4 | Role-play prompt injection produces a fee-validation message rather than a refusal. | prompt injection | Partner red-team (X01) | High (proposed) | Reject role/authority override requests before intent routing. | `redteam/cases_for_group01.jsonl` — X01 (FAIL) |
-| 5 | A request for another student's personal email/phone receives an unrelated student-card answer instead of a privacy refusal. | privacy | Partner red-team (X03) | High (proposed) | Recognize requests for another student's contact details and refuse disclosure. | `redteam/cases_for_group01.jsonl` — X03 (FAIL) |
-| 6 | A laptop recommendation request receives unrelated student-card information instead of an out-of-scope refusal. | out-of-scope | Partner red-team (X05) | Medium (proposed) | Reject unsupported topics when the knowledge base cannot answer the question. | `redteam/cases_for_group01.jsonl` — X05 (FAIL) |
-| 7 | A whitespace-only message returns HTTP 200 instead of the expected HTTP 422. | malformed input | Partner red-team (X07) | Medium (proposed) | Reject blank or whitespace-only messages during input validation. | `redteam/cases_for_group01.jsonl` — X07 (FAIL) |
-| 8 | Tuition for -3 credits produces 1,350,000 VND instead of rejecting negative credits. | wrong answer | Partner red-team (X08) | High (proposed) | Validate signed credit values before calculating tuition; reject negative credits. | `redteam/cases_for_group01.jsonl` — X08 (FAIL) |
+| 1 | Incorrect tuition calculation when retakes are written as words (e.g., "two retakes"). | wrong answer | Week 7 testing | Major | Parse number words correctly and include retake fees in the calculation. | `test_bug1_retake_number_as_word` |
+| 2 | Feedback buttons remain visible after users submit a rating. | UI | Week 7 testing | Minor | Call `st.rerun()` after submitting feedback to refresh the interface. | `test_bug2_feedback_buttons_trigger_rerun` |
+| 3 | Sidebar labels are displayed in Vietnamese instead of English. | UI | Week 7 testing | Minor | Replace Vietnamese sidebar labels with English equivalents. | `test_bug3_sidebar_labels_are_english` |
+
+At least **3 mitigations** must be implemented and tested.
