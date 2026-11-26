@@ -38,17 +38,17 @@ with st.sidebar:
             
     st.divider()
     
-    # Nút Xóa lịch sử trò chuyện bổ sung
-    if st.button("🗑️ Xóa lịch sử trò chuyện", use_container_width=True):
+    # Clear chat history button
+    if st.button("🗑️ Clear chat history", use_container_width=True):
         st.session_state.messages = [{"role": "assistant", "content": WELCOME}]
         st.session_state.session_id = uuid.uuid4().hex[:12]
         st.session_state.rated = set()
         st.rerun()
         
-    # Nút Tải xuống lịch sử chat bổ sung
+    # Download chat history button
     chat_export = "\n".join([f"{m['role'].upper()}: {m['content']}" for m in st.session_state.messages])
     st.download_button(
-        label="📥 Tải lịch sử chat",
+        label="📥 Download chat history",
         data=chat_export,
         file_name="chat_history.txt",
         mime="text/plain",
@@ -68,14 +68,18 @@ for i, m in enumerate(st.session_state.messages):
         rid = m.get("request_id")
         if rid and rid not in st.session_state.rated:
             c1, c2, _ = st.columns([1, 1, 6])
-            if c1.button("👍", key=f"up{i}"):
-                client.send_feedback(rid, 1)
-                st.session_state.rated.add(rid)
-                st.toast("Thanks for your feedback!")
-            if c2.button("👎", key=f"down{i}"):
-                client.send_feedback(rid, -1)
-                st.session_state.rated.add(rid)
-                st.toast("Thanks — we will look at this answer.")
+                if c1.button("👍", key=f"up{i}"):
+                    client.send_feedback(rid, 1)
+                    st.session_state.rated.add(rid)
+                    st.toast("Thanks for your feedback!")
+                    st.rerun()
+
+                if c2.button("👎", key=f"down{i}"):
+                    client.send_feedback(rid, -1)
+                    st.session_state.rated.add(rid)
+                    st.toast("Thanks — we will look at this answer.")
+                    st.rerun()
+
 
 # ---- new question ----------------------------------------------------------------
 question = st.chat_input("Ask one question at a time (e.g., 'Can I register thesis with 118 credits?')") or st.session_state.pop("pending", None)

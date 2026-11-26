@@ -8,15 +8,32 @@ from assistant_core.errors import InvalidRequest
 
 
 def parse_credits(text: str) -> tuple[int, int]:
-    """Extract (credits, retake_credits) from text like 'fee for 18 credits and 2 retake'."""
+    word_numbers = {
+        "zero": 0, "one": 1, "two": 2, "three": 3, "four": 4,
+        "five": 5, "six": 6, "seven": 7, "eight": 8,
+        "nine": 9, "ten": 10,
+    }
+
+    for word, number in word_numbers.items():
+        text = re.sub(
+            rf"\b{word}\s+retakes?\b",
+            f"{number} retakes",
+            text,
+            flags=re.IGNORECASE,
+        )
+
     retake = re.search(r"(\d+)\s*retake", text)
     numbers = [int(n) for n in re.findall(r"\d+", text)]
+
     retake_n = int(retake.group(1)) if retake else 0
     others = numbers.copy()
+
     if retake:
         others.remove(retake_n)
+
     if not others:
         raise InvalidRequest("How many credits?")
+
     return others[0], retake_n
 
 
